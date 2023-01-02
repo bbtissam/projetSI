@@ -90,13 +90,13 @@
                 <p>Vehicules</p>
                 </a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
               <a href=""
                   class="nav-link">
               <i class="nav-icon fas fa-sliders-h"></i>
               <p>Tarification</p>
               </a>
-          </li>
+          </li>-->
             
         </ul>
     </li>
@@ -105,7 +105,7 @@
     @can("employe")
     <li class="nav-header">LOCATION</li>
     <li class="nav-item">
-        <a href="" class="nav-link ">
+        <a href="{{ route('employe.clients.index') }}" class="nav-link ">
             <i class="nav-icon fas fa-users"></i>
             <p>
             Gestion des clients
@@ -113,7 +113,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="{{ route('employe.locations.index') }}" class="nav-link">
             <i class="nav-icon fas fa-exchange-alt"></i>
             <p>
             Gestion des locations
@@ -121,7 +121,7 @@
         </a>
     </li>
 
-    <li class="nav-header">CAISSE</li>
+    <!--<li class="nav-header">CAISSE</li>
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-coins"></i>
@@ -129,7 +129,7 @@
             Gestion des paiements
             </p>
         </a>
-    </li>
+    </li>-->
     @endcan
 
     </ul>

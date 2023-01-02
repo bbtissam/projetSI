@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Livewire\clientComp;
+use App\Http\Livewire\LocationComp;
 use App\Http\Livewire\VoitureComp;
 use App\Http\Livewire\TypeVoitureComp;
 use App\Http\Livewire\Utilisateurs;
@@ -41,7 +43,18 @@ Route::group(["middleware"=>["auth","auth.admin"],
         });
 });
 
-
+Route::group([
+    "middleware" => ["auth", "auth.employe"],
+    'as' => 'employe.'
+], function(){
+    Route::get("/clients", ClientComp::class)->name("clients.index");
+});
+Route::group([
+    "middleware" => ["auth", "auth.employe"],
+    'as' => 'employe.'
+], function(){
+    Route::get("/locations", LocationComp::class)->name("locations.index");
+});
 
 
 

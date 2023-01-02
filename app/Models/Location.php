@@ -9,6 +9,10 @@ class Location extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        "client_id", "voiture_id", "dateDebut", "dateFin"
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -28,4 +32,8 @@ class Location extends Model
     public function voitures(){
         return $this->belongsToMany(Voiture::class,"voiture_location","location_id","voiture_id");
       }
+
+      public function voiture(){
+        return $this->belongsTo(Voiture::class);
+    }
 }

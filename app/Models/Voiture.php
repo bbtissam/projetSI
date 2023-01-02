@@ -20,7 +20,11 @@ class Voiture extends Model
       return $this->hasMany(Tarification::class);
   }
   
-  public function locations(){
+  /**public function locations(){
     return $this->belongsToMany(Location::class,"voiture_location","voiture_id","location_id");
-  }
+  }**/
+
+  public function locations(){
+    return $this->hasMany(Location::class);
+}
 }

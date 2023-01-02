@@ -1,10 +1,10 @@
 <div>
-    @if ($editVoiture != [])
-      @include("livewire.voitures.edit")
-    @endif
-     @include("livewire.voitures.add")
+    
+      @include("livewire.locations.edit")
+    
+     @include("livewire.locations.add")
  
-     @include("livewire.voitures.liste")
+     @include("livewire.locations.liste")
  
  
  </div>
@@ -38,9 +38,9 @@
          cancelButtonText: 'Annuler'
          }).then((result) => {
          if (result.isConfirmed) {
-             const voiture_id = event.detail.message.data.voiture_id
-             if(voiture_id){
-                 @this.deleteVoiture(voiture_id)
+             const location_id = event.detail.message.data.location_id
+             if(location_id){
+                // @this.deleteVoiture(voiture_id)
              }
          }
          })

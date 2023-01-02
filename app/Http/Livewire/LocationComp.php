@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Livewire;
+
+use App\Models\Client;
+use App\Models\Location;
 use Intervention\Image\Facades\Image;
 use App\Models\Voiture;
 use App\Models\TypeVoiture;
@@ -11,25 +14,25 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
 
-class VoitureComp extends Component
+class LocationComp extends Component
 {
     use WithPagination;
     use WithFileUploads;
 
     protected $paginationTheme="bootstrap";
     public $search="";
-    public $filtreType="", $filtreEtat="";
-    public $addVoiture=[];
+    public $filtreVoiture="", $filtreClient="";
+    public $addLocation=[];
     public $inputFileIterator = 0;
     public $addPhoto = null;
-    public $editVoiture = [];
+    public $editLocation = [];
     public $editPhoto = null;
     public $inputEditFileIterator = 0;
     public $editHasChanged;
-    public $editVoitureOldValues = [];
+    public $editLocationOldValues = [];
 
 
-    protected function rules () {
+    /**protected function rules () {
         return [
             
             "editVoiture.titre" => ["required", Rule::unique("voitures", "titre")->ignore($this->editVoiture["id"])],
@@ -43,43 +46,47 @@ class VoitureComp extends Component
             'editVoiture.type_voiture_id' => 'required|exists:App\Models\TypeVoiture,id',
 
         ];
-    } 
+    } **/
     
     public function render()
     {
         Carbon::setLocale("fr");
 
 
-        $voitureQuery=Voiture::query();
+        $locationQuery=Location::query();
+        
+        /**if($this->editVoiture != []){
+            $this->showUpdateButton();
+        }**/
         if($this->search!=""){
             $this->resetPage();
-            $voitureQuery->where("titre","LIKE","%".$this->search."%")
-            ->orWhere("modele","Like","%".$this->search."%");
+            $locationQuery->where("titre","LIKE","%".$this->search."%")
+            ->orWhere("nom","Like","%".$this->search."%");
         }
-        if($this->filtreType !=""){
-            $voitureQuery->where("type_voiture_id",$this->filtreType);
+        if($this->filtreVoiture !=""){
+            $locationQuery->where("voiture_id",$this->filtreVoiture);
             
         }
        
-        if($this->filtreEtat !=""){
-            $voitureQuery->where("estDisponible",$this->filtreEtat);
+        if($this->filtreClient !=""){
+            $locationQuery->where("client_id",$this->filtreClient);
             
         }
-        if($this->editVoiture != []){
+        /**if($this->editVoiture != []){
             $this->showUpdateButton();
-        }
-
-        return view('livewire.voitures.index',[
-            "voitures"=>$voitureQuery->latest()->paginate(5),
-            "typevoitures"=>TypeVoiture::orderBy("nom","ASC")->get()
+        }**/
+        return view('livewire.locations.index',[
+            "locations"=>$locationQuery->latest()->paginate(5),
+            "voitures"=>Voiture::orderBy("titre","ASC")->get(),
+            "clients"=>Client::orderBy("nom","ASC")->get()
         ])
                 ->extends("layouts.master")
                 ->section("contenu");
     }
 
-    public function showAddVoitureModal(){
+    public function showAddLocationModal(){
         $this->resetValidation();
-        $this->addVoiture = [];
+        $this->addLocation = [];
         $this->addPhoto = null;
         $this->inputFileIterator++;
         $this->dispatchBrowserEvent("showModal");
@@ -90,7 +97,29 @@ class VoitureComp extends Component
         $this->dispatchBrowserEvent("closeModal");
     }
 
-    public function ajoutVoiture(){
+    public function ajoutLocation(){
+
+        $validateArr = [
+            "addLocation.client" => "required",
+            "addLocation.voiture" => "required",
+            "addLocation.dateDebut" => "required",
+            "addLocation.dateFin" => "required",
+            
+        ];
+
+        $validatedData = $this->validate($validateArr);
+        $location = Location::create([
+            "client_id" => $validatedData["addLocation"]["client"],
+            "voiture_id" => $validatedData["addLocation"]["voiture"],
+            "dateDebut" => $validatedData["addLocation"]["dateDebut"],
+            "dateFin" => $validatedData["addLocation"]["dateFin"],
+        ]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message"=>"Vehicule ajouté avec succès!"]);
+
+        $this->closeModal();
+    }
+
+   /**public function ajoutVoiture(){
         $validateArr = [
             "addVoiture.titre" => "string|min:3|required|unique:voitures,titre",
             "addVoiture.matricule" => "string|max:50|min:3|required",
@@ -165,11 +194,7 @@ class VoitureComp extends Component
     function showUpdateButton(){
         $this->editHasChanged = false;
 
-        /**foreach ($this->editVoitureOldValues as $index => $editVoitureOld) {
-            if($this->editVoiture[$index]["valeur"] != $editVoitureOld["valeur"]){
-                $this->editHasChanged = true;
-            }
-        }**/
+        
         if( 
             $this->editVoiture["titre"] != $this->editVoitureOldValues["titre"] ||
             $this->editVoiture["matricule"] != $this->editVoitureOldValues["matricule"] ||
@@ -242,5 +267,5 @@ class VoitureComp extends Component
         $voiture->delete();
 
         $this->dispatchBrowserEvent("showSuccessMessage", ["message"=>"voiture supprimé avec succès!"]);
-    }
+    }**/
 }

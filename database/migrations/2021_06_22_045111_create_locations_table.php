@@ -18,8 +18,10 @@ class CreateLocationsTable extends Migration
             $table->dateTime("dateDebut");
             $table->dateTime("dateFin");
             $table->foreignId("client_id")->constrained();
-            $table->foreignId("user_id")->constrained();
-            $table->foreignId("statut_location_id")->constrained();
+            $table->foreignId("voiture_id")->constrained();
+            $table->timestamps();
+            //$table->foreignId("user_id")->constrained();
+            //$table->foreignId("statut_location_id")->constrained();
         });
 
         Schema::enableForeignKeyConstraints();
@@ -33,7 +35,7 @@ class CreateLocationsTable extends Migration
     public function down()
     {
         Schema::table('locations', function(Blueprint $table){
-            $table->dropForeign(["client_id", "user_id", "statut_location_id"]);
+            $table->dropForeign(["client_id", "voiture_id"]);
         });
 
         Schema::dropIfExists('locations');

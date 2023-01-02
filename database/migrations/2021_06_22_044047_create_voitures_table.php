@@ -22,6 +22,7 @@ class CreateVoituresTable extends Migration
             $table->integer("kilometrage");
             $table->integer("nbrPlace");
             $table->text("description");
+            $table->double("prix");
             $table->boolean("estDisponible")->default(1);
             $table->foreignId("type_voiture_id")->constrained();
             $table->timestamps();

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{mix("css/app.css")}}" />
 
     @livewireStyles
-
+    
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -74,7 +74,7 @@
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2021 <a href="https://adminlte.io">Codeurspassionnes.com</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">projet SI</a>.</strong> All rights reserved.
   </footer>
 </div>
 <!-- ./wrapper -->
